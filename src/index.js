@@ -1,27 +1,34 @@
 module.exports = function check(str, bracketsConfig) {
-  let open =[];
-  let closed = []
-let squareOpenBracket = '['
-let squareClosedBracket = ']'
-let openBracket = '('
-let closedBracket = ')'
-let curlyOpenBracket = '{'
-let curlyClosedBracket = '}'
+    let opened = [];
+    let closed = [];
+    let holder = [];
 
-if(str.length % 2 != 0 || typeof(str) === 'number') return false
+    bracketsConfig.forEach(pair => {
+        opened.push(pair[0]);
+        closed.push(pair[1])
+    });
 
-console.log(str)
-for(let element of str){
-    if(element == squareOpenBracket || element == openBracket || element == curlyOpenBracket){
-        open.push(element)
+    console.log('opened = ', opened)
+    console.log('closed = ', closed)
+  
+    for (let char of str) {
+          
+         if (opened.includes(char)) {
+            holder.push(char);
+          
+        }
+        if (closed.includes(char)) {
+          // console.log(char)
+            if (holder.length != 0) {
+              let ind = closed.findIndex(item => item === char)
+              console.log(ind)
+              console.log(holder[ind])
+                holder.pop(holder[ind])
+            } else return false
+
+        }
+
     }
-    if(element == squareClosedBracket || element == closedBracket || element == curlyClosedBracket){
-        closed.push(element)
-    }
-}
-
-if (open.length == closed.length) return true
-return false
-
-
-}
+console.log(holder)
+    return true;
+};
